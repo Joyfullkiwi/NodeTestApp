@@ -1,27 +1,21 @@
-var express = require('express');
-var app = express();
-app.configure(function(){
-  app.set('view engine', 'jade');//load the Jade library
+module.exports = function (db) {
+  'use strict';
+  var express = require('express');
+  var bodyParser = require('body-parser');
+  var session = require('express-session');
+  var cookieParser = require('cookie-parser');
+  var app = express();
+  var MemoryStore = require('connect-mongo')(session);
+  var sessionOptions = require('./config/session')(db, MemoryStore);
+
   app.use(express.static(__dirname + '/public'));
-});
-app.get('/', function(req, res){
-  res.render("index.jade", {layout:false});
-});
-app.listen(8080);
+  app.use(bodyParser.json({strict: false, inflate: true, limit: 1024 * 1024 * 200}));
+  app.use(bodyParser.urlencoded({extended: false, limit: 1024 * 1024 * 200})); // https://www.npmjs.com/package/body-parser
 
+  app.use(cookieParser('StudentKey'));
+  app.use(session(sessionOptions));
 
+  require('./routes/index')(app, db);
 
-
-
-
-/*var http = require('http');
-
-var static = require('node-static');
-var file = new static.Server('.');
-
-http.createServer(function(req, res) {
-  file.serve(req, res);
-}).listen(8080);
-
-console.log('Server running on port 8080');
-console.log('hgjhj')*/
+  return app;
+};

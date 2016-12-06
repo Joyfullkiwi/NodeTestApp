@@ -1,26 +1,35 @@
+/*global process*/
 'use strict';
-var mongoose = require('mongoose');//pidkl
 
-var port = 3030;
+var mongoose = require('mongoose');
 var connection;
+var app;
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'production';
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 require('./config/' + process.env.NODE_ENV);
 
-//mongodb://host:port/name  //persuj param u metodi
-mongoose.connect('mongoose://'+process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB_NAME);
-connection=mongoose.connection;
+// mongodb://host:port/name
+// mongoose.crateConnection('mongodb://'+ process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB_NAME);
 
-connection.once('connected',function () {
-    var app = require('./app')();
+mongoose.connect('mongodb://' + process.env.DB_HOST + ':' + process.env.DB_PORT + '/' + process.env.DB_NAME);
+connection = mongoose.connection;
 
-    app.listen(port, function () {
-        console.log('==============================================================');
-        console.log('server start success on port=' + port + ' in ' + process.env.NODE_ENV);
-        console.log('==============================================================\n');
+connection.once('connected', function () {
+    connection.mongoose = mongoose;
+    require('./models/index.js');
+
+    app = require('./app')(connection);
+
+    console.log('====================================================================');
+    console.log('Database was successfully connected "' + 'mongodb://' + process.env.DB_HOST + ':' + process.env.DB_PORT + '/' + process.env.DB_NAME + '"');
+
+    app.listen(process.env.APP_PORT, function () {
+        console.log('Server successfully started at port ' + process.env.APP_PORT + ' in ' + process.env.NODE_ENV + '...');
+        console.log('====================================================================\n');
     });
 });
 
-connection.on('connected',function (err) {
-console.error(err)
+connection.on('error', function (err) {
+    console.error(err);
 });
+

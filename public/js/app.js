@@ -1,7 +1,6 @@
 define([
     'Backbone',
     'router'
-
 ], function(Backbone, Router) {
 
     var initialize = function() {

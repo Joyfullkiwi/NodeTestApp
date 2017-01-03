@@ -7,16 +7,18 @@ module.exports = (function () {
 
     var userSchema = mongoose.Schema({
 
-        firstName: {type: String, required: false, unique: true},
+        firstName: {type: String, required:true},
         lastName : {type: String},
-       friends  : [{type: ObjectId, ref: 'user', default: null}],
+        email    : { type: String, unique: true, required: true},
+        friends  : [{type: ObjectId, ref: 'user', default: null}],
         admin    : {type: ObjectId, default: null},
         birthDay : {type: Date, default: Date.now()},
         age      : {type: Number, enum: [1, 0], default: 0},
         posts    : [{type: Array}],
         login    : {type:String},
         pass     : {type:String},
-       // photoUrl: { type: String },
+       // photoUrl: { type: String }
+        // email,
       //  biography: { type: String }
     }, {collection: 'users'});
 

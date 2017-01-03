@@ -14,8 +14,9 @@ module.exports = function (models) {
 
   router.get('/:id', expressSession.authenticatedUser, handler.getUserById);
 
-  router.post('/', handler.createUser);
+  router.post('/',expressSession.authenticatedUser,handler.createUser);
   router.post('/login', handler.login);
+  //router.post('/changepass', handler.changePassword());
 
   router.patch('/:id', expressSession.authenticatedUser, handler.updateUser);
 

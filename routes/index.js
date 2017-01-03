@@ -3,8 +3,12 @@ module.exports = function (app, db) {
   var models = require('../helpers/models.js')(db);
   var userRouter = require('./user')(models);
 
-  app.use('/users', userRouter);
 
+  app.get('/',function (req, res, next) {
+
+    res.send("index.html");
+  });
+  app.use('/users', userRouter);
   function errHandler(err, req, res, next) {
     var status = err.status || 500;
     var msg;

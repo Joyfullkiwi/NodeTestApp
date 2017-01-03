@@ -1,0 +1,16 @@
+body, #wrapper {
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    cursor: pointer;
+}
+
+.p20 {
+    padding: 20px;
+}
+
+thead {
+    background-color: lightgrey;
+}

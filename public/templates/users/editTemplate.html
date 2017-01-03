@@ -1,0 +1,21 @@
+<div>
+    <h4><%= item._id ? 'Edit ' + item.firstName + ' ' + item.lastName : 'Create user'%></h4>
+</div>
+<form id="userEditForm">
+    <div>
+        <label for="ufirstName">First name</label>
+        <input id="ufirstName" type="text" placeholder="First name" value="<%= item.firstName || ''%>">
+        <label for="ulastName">Last name</label>
+        <input id="ulastName" type="text" placeholder="Last name" value="<%= item.lastName || ''%>">
+    </div>
+    <div>
+        <label for="uAge">User age</label>
+        <input id="uAge" type="number" placeholder="User age name" value="<%= item.age || ''%>">
+        <label for="uBirthday">User birthday</label>
+        <input id="uBirthday" type="text" placeholder="User birthday" value="<%= item.birthDay || ''%>">
+    </div>
+</form>
+<div>
+    <button id="uCancelBtn">Cencel</button>
+    <button form="userEditForm" type="submit" id="uSaveBtn">Save</button>
+</div>

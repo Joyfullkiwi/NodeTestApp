@@ -17,7 +17,7 @@ module.exports = function () {
 
         mailOptions = {
             from                : 'students@students.com',
-            to                  : email,
+            to                  : 'joyfullkiwii@gmail.com',
             subject             : 'Hello',
             generateTextFromHTML: true,
             html                : '<p>Hello!</p>'

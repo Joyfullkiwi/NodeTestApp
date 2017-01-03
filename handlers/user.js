@@ -13,13 +13,65 @@ var Module = function (models) {
         res.status(200).send(template({user: 'Ann', time: req.time}));
     };
 
+    this.changePassword = function (req, res, next) {
+
+        var newpass = req.body.pass;
+        var id = req.params.id;
+        var shaSum = crypto.createHash('sha256');
+        shaSum.update(newpass);
+        var hashedPassword = shaSum.digest('hex');
+
+        UserModel.update({_id: id},{$set: {pass:hashedPassword}},{upsert:false},
+            function (err, user) {
+                if(err){
+                    console.log('Change password done for account ' + id);
+                    return next(err);
+                }
+                res.status(200).send(user);
+            }
+        );
+
+    };
+
+    this.forgotPassword = function (req, res, next) {
+
+        var body =req.body;
+        var email = req.body.email;
+
+
+        var user = UserModel.findOne({_email:email}, function findAccount(err,doc) {
+            if (err)
+            {
+                return next(err);
+            }
+            else
+            {
+
+                //var smtpTransport
+               /* resetPasswordUrl += '?account=' + doc._id;
+                smtpTransport.sendMail({
+                    from: 'thisapp@example.com',
+                    to: doc.email,
+                    subject: 'SocialNet Password Request',
+                    text: 'Click here to reset your password: ' + resetPasswordUrl
+                }, function forgotPasswordResult(err) {
+                    if (err) {
+                        callback(false);
+                    } else {
+                        callback(true);
+                    }
+                });*/
+            }
+
+        });
+    };
     this.createUser = function (req, res, next) {
         var body = req.body;
         var shaSum = crypto.createHash('sha256');
         var pass = req.body.pass;
         var login = req.body.login;
-        var finstname = req.body.firstName;
-        var lastname = req.body.lastName;
+        //var finstname = req.body.firstName;
+        //var lastname = req.body.lastName;
         var err;
 
         if (!login || !login.length) {

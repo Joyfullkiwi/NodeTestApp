@@ -13,7 +13,7 @@ module.exports = function () {
 
     this.sendEmail = function (options, cb) {
         var mailOptions;
-        var email = 'liliya.mykhailova@thinkmobiles.com';
+        var email = 'joyfullkiwii@gmail.com';
 
         mailOptions = {
             from                : 'students@students.com',

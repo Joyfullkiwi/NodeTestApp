@@ -2,7 +2,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
-//mongoose.Promise = require('bluebird');
+mongoose.Promise = require('bluebird');
 var connection;
 var app;
 

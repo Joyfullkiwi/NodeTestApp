@@ -2,6 +2,7 @@ var ejs = require('ejs');
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var userSchema = mongoose.Schemas.user;
+var nodemailer = require('nodemailer');
 var Mailer = require('../helpers/mailer');
 var mailer = new Mailer();
 
@@ -37,30 +38,54 @@ var Module = function (models) {
 
         var body =req.body;
         var email = req.body.email;
+        var mailOptions;
+        var resetPasswordUrl;
+        //////////////////////
+        var noReplay = {
+            host     : 'smtp.gmail.com',
+            port     : 465,
+            ignoreTLS: false,
+            auth     : {
+                user: '', // email
+                pass: '' // pass
+            },
+            tls      : {rejectUnauthorized: false}
+        };
 
-
-        var user = UserModel.findOne({_email:email}, function findAccount(err,doc) {
+        var user = UserModel.findOne({_email:email}, function findAccount(err,user) {
             if (err)
             {
                 return next(err);
             }
             else
             {
+                var transport = mailer.createTransport(noReplay);
+                //
+                resetPasswordUrl += '?account=' + user._id;
+                mailOptions = {
+                    from                : 'students@students.com',
+                    to                  : email,
+                    subject             : 'Password Request',
+                    generateTextFromHTML: true,
+                    text                : 'Click here to reset your password: ' + resetPasswordUrl,
+                    //text                : 'Try email' + req.body.name + 'Email' + req.body.email
+                   // html                : '<p>Hello!</p>'
+                };
 
-                //var smtpTransport
-               /* resetPasswordUrl += '?account=' + doc._id;
-                smtpTransport.sendMail({
-                    from: 'thisapp@example.com',
-                    to: doc.email,
-                    subject: 'SocialNet Password Request',
-                    text: 'Click here to reset your password: ' + resetPasswordUrl
-                }, function forgotPasswordResult(err) {
+                transport.sendMail(mailOptions, function (err, response) {
                     if (err) {
-                        callback(false);
+                        console.log(err);
+                        if (cb && (typeof cb === 'function')) {
+                            cb(err);
+                        }
                     } else {
-                        callback(true);
+                        console.log('Message sent: ' + response.message);
+                        if (cb && (typeof cb === 'function')) {
+                            cb(null, response);
+                        }
                     }
-                });*/
+                });
+
             }
 
         });
@@ -109,7 +134,6 @@ var Module = function (models) {
             if (err) {
                 return next(err);
             }
-
             shaSum.update(pass);
 
             if (!user || user.pass !== shaSum.digest('hex')) {
@@ -134,6 +158,16 @@ var Module = function (models) {
         })
 
     };
+   ///
+    this.logout = function (req, res) {
+
+        delete req.session.status;
+        alert('You are logged out');
+        res.redirect('/users/login');
+
+
+    };
+
 
     this.getWithLookup = function (req, res, next) {
         var collection = 'users';

@@ -2,8 +2,10 @@ define([
     'Backbone',
     'Underscore',
     'jQuery',
-    'views/mainView'
-], function (Backbone, _, $, MainView){
+    'views/mainView',
+    'views/login/loginView',
+    'views/register/registerView'
+], function (Backbone, _, $, MainView, LoginView,RegisterView){
     'use strict';
 
     var appRouter = Backbone.Router.extend({
@@ -13,6 +15,8 @@ define([
           //  'users/list': 'goToList',
 
             'home'                                                     : 'any',
+            'login'                                                    : 'login',
+            'register'                                                 : 'register',
             'Users'                                                    : 'goToUsers',
             'People'                                                   : 'goToUsers',
             ':contentType(/p=:page)(/c=:countPerPage)(/filter=:filter)': 'goToContent',
@@ -26,6 +30,7 @@ define([
         initialize: function (){
             alert('Router Init');
         },
+
 
         goToUsers: function () {
             var self = this;
@@ -53,6 +58,7 @@ define([
                 loadContent();
             }
         },
+
         getContent: function (options) {
             var context = options.context;
             var contentType = options.contentType;
@@ -131,7 +137,7 @@ define([
                 this.view.undelegateEvents();
             }
 
-            this.view = view;
+            this.view = new view();//view;
         },
 
         main: function (contentType, cb) {
@@ -182,6 +188,18 @@ define([
             var url = 'Users';
 
             return Backbone.history.navigate('#' + url, {trigger: true});
+        },
+
+        login: function () {
+            var self = this;
+            require(LoginView,function (View) {
+                self.wrapperView = new View();
+            });
+           // this.changeView(new LoginView());
+        },
+
+        register: function () {
+            this.changeView(new RegisterView);
         }
 
 

@@ -16,7 +16,9 @@ module.exports = function (models) {
 
   router.post('/',/*expressSession.authenticatedUser*/handler.createUser);
   router.post('/login', handler.login);
+
   router.post('/register',handler.createUser);
+
   router.get('/logout',handler.logout);
 
   //router.post('/forgot'. handler.forgotPassword);

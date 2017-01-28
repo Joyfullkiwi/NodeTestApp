@@ -17,9 +17,7 @@ module.exports = (function () {
         posts    : [{type: Array}],
         login    : {type:String},
         pass     : {type:String},
-       // photoUrl: { type: String }
-        // email,
-      //  biography: { type: String }
+        roles    : [String]
     }, {collection: 'users'});
 
     mongoose.model('user', userSchema);
@@ -28,7 +26,8 @@ module.exports = (function () {
         mongoose.Schemas = {};
     }
 
-    mongoose.Schemas.user = userSchema;
-   // mongoose.Schemas.user = userSchema;
+
+     mongoose.Schemas.user = userSchema;
+
   //  mongoose.Schemas.user
 })();

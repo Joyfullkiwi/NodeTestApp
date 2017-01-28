@@ -3,7 +3,9 @@ module.exports = (function () {
     var ObjectId = mongoose.Schema.Types.ObjectId;
 
     var groupSchema = mongoose.Schema({
-        title     : {type:String,required:true},
+        title     : {type:String},
+        url       : {type: String, unique: true},
+
         students  : [{type: ObjectId, ref: 'student', default: null}],
         teachers  : [{type: ObjectId, ref: 'teacher', default: null}],
         posts     : [{type: Array}]

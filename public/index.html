@@ -3,7 +3,8 @@
 <head>
     <title>LoginApp</title>
     <link rel="stylesheet" href="/css/bootstrap.css" />
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
+    <script data-main="js/main" src="js/libs/requirejs/require.js"></script>
 </head>
 <body>
 <div class="container">
@@ -12,7 +13,7 @@
             <ul class="nav nav-pills pull-right">
 
                 <li role="presentation"><a href="/">Home</a></li>
-                <li role="presentation"><a href=" #/logout">Logout</a></li>
+                <li role="presentation"><a href=" #logout">Logout</a></li>
 
                 <li role="presentation"><a href="#login">Login</a></li>
                 <li role="presentation"><a href="#register">Registration</a></li>
@@ -21,7 +22,7 @@
         </nav>
     </div>
 
-
+    <div id="wrapper"></div>
 
     <footer class="footer">
         <p>&copy; Test Application 2017.</p>

@@ -18,6 +18,7 @@ var Module = function (models) {
 
         var newpass = req.body.pass;
         var id = req.params.id;
+
         var shaSum = crypto.createHash('sha256');
         shaSum.update(newpass);
         var hashedPassword = shaSum.digest('hex');
@@ -150,22 +151,24 @@ var Module = function (models) {
                 session.cookie.expires = false;
             }
 
+
             session.loggedIn = true;
             session.uId = user._id;
+
             session.uName = user.login;
 
             res.status(200).send(user);
         })
 
     };
-   ///
-    this.logout = function (req, res) {
-
-        delete req.session.status;
-        alert('You are logged out');
-        res.redirect('/users/login');
 
 
+
+    this.logout = function (req, res, next) {
+        if (req.session) {
+            req.session.destroy(function () { });
+        }
+        res.redirect('/#login');
     };
 
 

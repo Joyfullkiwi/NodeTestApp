@@ -1,0 +1,47 @@
+module.exports = (function () {
+
+    var mongoose = require('mongoose');
+    var ObjectId = mongoose.Schema.Types.ObjectId;
+
+    var tagSchema = mongoose.Schema({
+        _id: {
+            type: String, unique: true
+        }
+    }, {collection: 'tags'});
+
+    var Tag = mongoose.model('Tag', tagSchema);
+    var postSchema = mongoose.Schemas({
+
+        title: String,
+        url: {type: String, unique: true},
+        category: {type: ObjectId, ref: 'Category'},
+        body: String,
+        comments: [
+            {
+                author: {type: ObjectId, ref: 'User'},
+                email: String, text: String
+            }
+        ],
+        tags: [{type: String, ref: 'Tag'}],
+        published: Boolean,
+        created: {
+            date: {type: Date, default: new Date()}
+        },
+        edited: [{
+            author: {type: ObjectId, ref: 'User'},
+            date: Date
+        }],
+        author: {type: ObjectId, ref: 'User'}
+
+    },{collection: 'posts'});
+
+    mongoose.model('post', postSchema);
+
+    if(!mongoose.Schemas)
+    {
+        mongoose.Schemas = {};
+    }
+    mongoose.Schemas['post'] = postSchema;
+
+
+})();

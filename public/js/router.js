@@ -137,7 +137,7 @@ define([
                 this.view.undelegateEvents();
             }
 
-            this.view = new view();//view;
+            this.view = view;
         },
 
         main: function (contentType, cb) {

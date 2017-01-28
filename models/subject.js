@@ -4,7 +4,7 @@ module.exports = (function () {
 
     var subSchema = mongoose.Schema({
         title    : {type: String, required: true},
-        students  : [{type: ObjectId, ref: 'student', default: null}],
+        teacher  : [{type: ObjectId, ref: 'teacher', default: null}],
     }, {collection: 'subjects'});
 
     mongoose.model('subject', subSchema);

@@ -5,7 +5,10 @@ module.exports = (function () {
     var markSchema = mongoose.Schema({
         subject    : [{type: ObjectId, default: null,ref: 'subject'}],
         marks      : {type: Number,required:true},
-        student    : [{type: ObjectId, default:null,ref: 'student'}]
+        student    : [{type: ObjectId, default:null,ref: 'student'}],
+        publishedBy: [{type: ObjectId, ref: 'teacher'}],
+        visits     : {type: Boolean}
+
       //  posts    : [{type: Array}]
     }, {collection: 'marks'});
 
@@ -16,8 +19,5 @@ module.exports = (function () {
     }
 
     mongoose.Schemas.mark = markSchema;
-    // mongoose.Schemas.ggroup
-    // mongoose.Schemas.groups
-    //  mongoose.Schemas.group = studentSchema;
 
 })();

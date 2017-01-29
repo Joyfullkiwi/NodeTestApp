@@ -5,7 +5,15 @@ module.exports = (function () {
 
     var categorySchema = mongoose.Schema({
         name: { type: String, unique: true },
-        description: { type: String}
+        description: { type: String},
+        createdBy: {
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date, default: Date.now }
+        },
+        editedBy: {
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date }
+        }
     }, {collection: 'categories'});
 
     mongoose.model('category', userSchema);

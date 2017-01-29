@@ -28,7 +28,15 @@ module.exports = function (app, db) {
     } else {
       res.status(status).send({error: msg + '\n' + err.stack});
     }
-  }
+  };
+
+  app.get('/account/authenticated', function (req, res, next) {
+    if (req.session && req.session.loggedIn) {
+      res.status(200).send('Success');
+    } else {
+      res.status(401).send('Fail');
+    }
+  });
 
   app.use(errHandler);
 

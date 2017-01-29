@@ -13,7 +13,15 @@ module.exports = (function () {
                 editWrite: { type: Boolean, default: false },
                 del: { type: Boolean, default: false }
             }
-        }]
+        }],
+        createdBy: {
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date, default: Date.now }
+        },
+        editedBy: {
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date }
+        }
     }, {collection:'profiles'});
 
     mongoose.model('profile', ProfileSchema);

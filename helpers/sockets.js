@@ -40,8 +40,8 @@ module.exports = function (server) {
     );
     io.adapter(
         adapter({
-            pubClient:pub,
-            subClient:sub
+            //pubClient:pub,
+            //subClient:sub
         })
     );
 };

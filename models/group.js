@@ -5,7 +5,14 @@ module.exports = (function () {
     var groupSchema = mongoose.Schema({
         title     : {type:String},
         url       : {type: String, unique: true},
-
+        createdBy: {
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date, default: Date.now }
+        },
+        editedBy: {
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date }
+        },
         students  : [{type: ObjectId, ref: 'student', default: null}],
         teachers  : [{type: ObjectId, ref: 'teacher', default: null}],
         posts     : [{type: Array}]

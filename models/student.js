@@ -13,6 +13,14 @@ module.exports = (function () {
         marks    : [{type:ObjectId,default:null}],
         birthDay : {type: Date, default: Date.now()},
         age      : {type: Number, enum: [1, 0], default: 0},
+        createdBy: {
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date, default: Date.now }
+        },
+        editedBy: {
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date }
+        },
         posts    : [{type: Array}]
     }, {collection: 'students'});
 

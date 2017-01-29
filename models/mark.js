@@ -6,7 +6,14 @@ module.exports = (function () {
         subject    : [{type: ObjectId, default: null,ref: 'subject'}],
         marks      : {type: Number,required:true},
         student    : [{type: ObjectId, default:null,ref: 'student'}],
-        publishedBy: [{type: ObjectId, ref: 'teacher'}],
+        createdBy: {
+            user: { type: ObjectId, ref: 'teacher', default: null },
+            date: { type: Date, default: Date.now }
+        },
+        editedBy: {
+            user: { type: ObjectId, ref: 'teacher', default: null },
+            date: { type: Date }
+        },
         visits     : {type: Boolean}
 
       //  posts    : [{type: Array}]

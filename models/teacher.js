@@ -13,7 +13,15 @@ module.exports = (function () {
         admin    : [{type: ObjectId, default: null}],
         birthDay : {type: Date, default: Date.now()},
         age      : {type: Number, enum: [1, 0], default: 0},
-        posts    : [{type: Array}]
+        posts    : [{type: Array}],
+        createdBy: {
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date, default: Date.now }
+        },
+        editedBy: {
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date }
+        }
     }, {collection: 'teachers'});
 
     mongoose.model('teacher', teacherSchema);

@@ -24,13 +24,14 @@ module.exports = (function () {
         ],
         tags: [{type: String, ref: 'Tag'}],
         published: Boolean,
-        created: {
-            date: {type: Date, default: new Date()}
+        createdBy: {
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date, default: Date.now }
         },
-        edited: [{
-            author: {type: ObjectId, ref: 'User'},
-            date: Date
-        }],
+        editedBy: {
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date }
+        },
         author: {type: ObjectId, ref: 'User'}
 
     },{collection: 'posts'});

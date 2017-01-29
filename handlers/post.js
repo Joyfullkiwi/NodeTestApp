@@ -87,11 +87,6 @@ var Module = function (models) {
     };
 
     this.createComment = function (req, res, next) {
-        /*PostModel.update({_id: req.params.id},{}).exec(function (err, post) {
-         if (err) {
-         throw err;
-         }
-         });*/
         res.send({message: 'Comments not implemented'})
     };
 

@@ -6,7 +6,7 @@ module.exports = (function () {
     require('./mark.js');
     require('./group.js');
     require('./profile.js');
-    require('./category');
+    require('./category.js');
     require('./post');
 
 })();

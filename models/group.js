@@ -13,6 +13,10 @@ module.exports = (function () {
             user: { type: ObjectId, ref: 'User', default: null },
             date: { type: Date }
         },
+        removedBy:{
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date, default: Date.now }
+        },
         students  : [{type: ObjectId, ref: 'student', default: null}],
         teachers  : [{type: ObjectId, ref: 'teacher', default: null}],
         posts     : [{type: Array}]

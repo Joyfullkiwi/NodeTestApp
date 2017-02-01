@@ -1,4 +1,4 @@
-module.exports = function () {
+module.exports = function (to, subject, text, html) {
     var nodemailer = require('nodemailer');
     var noReplay = {
         host     : 'smtp.gmail.com',
@@ -17,10 +17,11 @@ module.exports = function () {
 
         mailOptions = {
             from                : 'students@students.com',
-            to                  : 'joyfullkiwii@gmail.com',
-            subject             : 'Hello',
+            to                  : to,//'joyfullkiwii@gmail.com',
+            subject             : subject, //'Hello',
+            text                : text,
             generateTextFromHTML: true,
-            html                : '<p>Hello!</p>'
+            html                : html//'<p>Hello!</p>'
         };
 
         var transport = nodemailer.createTransport(noReplay);

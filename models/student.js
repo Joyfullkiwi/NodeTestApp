@@ -6,7 +6,7 @@ module.exports = (function () {
         firstName: {type: String, required: true},
         lastName : {type: String},
         friends  : [{type: ObjectId, ref: 'student', default: null}],
-        admin    : [{type: ObjectId, default: null}],
+
         groups   : [{type:ObjectId ,default:null}],
         subjects : [{type:ObjectId,default:null}],
         teachers : [{type:ObjectId,default:null}],
@@ -20,6 +20,10 @@ module.exports = (function () {
         editedBy: {
             user: { type: ObjectId, ref: 'User', default: null },
             date: { type: Date }
+        },
+        removedBy:{
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date, default: Date.now }
         },
         posts    : [{type: Array}]
     }, {collection: 'students'});

@@ -32,6 +32,10 @@ module.exports = (function () {
             user: { type: ObjectId, ref: 'User', default: null },
             date: { type: Date }
         },
+        removedBy:{
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date, default: Date.now }
+        },
         author: {type: ObjectId, ref: 'User'}
 
     },{collection: 'posts'});

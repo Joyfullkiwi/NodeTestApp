@@ -11,13 +11,12 @@ module.exports = (function () {
         lastName : {type: String},
         email    : { type: String, unique: true, required: true},
         friends  : [{type: ObjectId, ref: 'user', default: null}],
-        admin    : {type: Boolean},
         birthDay : {type: Date, default: Date.now()},
         age      : {type: Number, enum: [1, 0], default: 0},
         posts    : [{type: Array}],
         login    : {type:String},
         pass     : {type:String},
-        roles    : [String],
+        admin    : {type: Boolean},
         photo    : {
             type   : String,
             default: "http://1plusx.com/app/mu-plugins/all-in-one-seo-pack-pro/images/default-user-image.png"

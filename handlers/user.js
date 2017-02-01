@@ -2,9 +2,8 @@ var ejs = require('ejs');
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var userSchema = mongoose.Schemas.user;
-var nodemailer = require('nodemailer');
-var Mailer = require('../helpers/mailer');
-var mailer = new Mailer();
+var sendMail = require('../helpers/mailer');
+
 
 var Module = function (models) {
     var UserModel = models.get('user', userSchema);
@@ -37,58 +36,23 @@ var Module = function (models) {
 
     this.forgotPassword = function (req, res, next) {
 
-        var body =req.body;
         var email = req.body.email;
-        var mailOptions;
+        var to;
+        var subject;
+        var text;
+        var html;
         var resetPasswordUrl;
-        //////////////////////
-        var noReplay = {
-            host     : 'smtp.gmail.com',
-            port     : 465,
-            ignoreTLS: false,
-            auth     : {
-                user: '', // email
-                pass: '' // pass
-            },
-            tls      : {rejectUnauthorized: false}
-        };
 
         var user = UserModel.findOne({_email:email}, function findAccount(err,user) {
-            if (err)
-            {
+            if (err) {
                 return next(err);
             }
-            else
-            {
-                var transport = mailer.createTransport(noReplay);
-                //
-                resetPasswordUrl += '?account=' + user._id;
-                mailOptions = {
-                    from                : 'students@students.com',
-                    to                  : email,
-                    subject             : 'Password Request',
-                    generateTextFromHTML: true,
-                    text                : 'Click here to reset your password: ' + resetPasswordUrl,
-                    //text                : 'Try email' + req.body.name + 'Email' + req.body.email
-                   // html                : '<p>Hello!</p>'
-                };
 
-                transport.sendMail(mailOptions, function (err, response) {
-                    if (err) {
-                        console.log(err);
-                        if (cb && (typeof cb === 'function')) {
-                            cb(err);
-                        }
-                    } else {
-                        console.log('Message sent: ' + response.message);
-                        if (cb && (typeof cb === 'function')) {
-                            cb(null, response);
-                        }
-                    }
-                });
-
-            }
-
+            to = email;
+            subject = "Hello " + myName;
+            text =  '';
+            html = '<b> hello! </b>';
+            sendMail(to, subject, text, html);
         });
     };
     this.createUser = function (req, res, next) {
@@ -96,8 +60,6 @@ var Module = function (models) {
         var shaSum = crypto.createHash('sha256');
         var pass = req.body.pass;
         var login = req.body.login;
-        //var finstname = req.body.firstName;
-        //var lastname = req.body.lastName;
         var err;
 
         if (!login || !login.length) {
@@ -154,8 +116,11 @@ var Module = function (models) {
 
             session.loggedIn = true;
             session.uId = user._id;
-
             session.uName = user.login;
+            //admin
+            if (user.admin) {
+                req.session.isAdmin = true;
+            }
 
             res.status(200).send(user);
         })

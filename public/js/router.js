@@ -11,8 +11,6 @@ define([
     var appRouter = Backbone.Router.extend({
 
         routes: {
-           // 'users/create': 'goToCreateView',
-          //  'users/list': 'goToList',
 
             'home'                                                     : 'any',
             'login'                                                    : 'login',

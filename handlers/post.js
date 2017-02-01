@@ -9,7 +9,7 @@ var mailer = new Mailer();
 var Module = function (models) {
     "use strict";
     var PostModel = models.get('post', postSchema);
-    var CategoryModel = models.get('category',categorySchema);
+
 
    this.createPost = function (req,res,next) {
        var body = req.body;

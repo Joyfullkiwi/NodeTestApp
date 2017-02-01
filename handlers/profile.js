@@ -5,7 +5,7 @@ var profileSchema = mongoose.Schemas.profile;
 
 var Module = function (models) {
     "use strict";
-    var ProfileModel = models.get('user', userSchema);
+    var ProfileModel = models.get('user', profileSchema);
 
     this.createProfile = function (res, req, next) {
 
@@ -16,7 +16,9 @@ var Module = function (models) {
 
             profile.createdBy.user = req.session.uId;
             profile.editedBy.user = req.session.uId;
+
         }
+
 
         profile.save(function (err, profile) {
             if(err){
@@ -30,12 +32,33 @@ var Module = function (models) {
     };
     this.getProfile = function (res, req, next) {
 
+        var query = req.query;
+        var criteria = query.
+        ProfileModel.find(criteria).populate('friends', 'firstName lastName').exec(function (err, students) {
+            if(err){
+                return next(err);
+            }
+            res.status(200).send(students);
+
+        })
     };
     this.updateProfile = function (res, req, next) {
-
+        ProfileModel.update(req.params.id, req.body).exec(function (err, data) {
+            if (err) {
+                throw err;
+            }
+            res.status(200).send(data);
+        });
     };
     this.removeProfile = function (res, req, next) {
+        ProfileModel.remove(req.params).exec(function (err, data) {
+            if (err) {
+                throw err;
+            }
 
+
+            res.sendStatus(200).send(data);
+        });
     };
 };
 

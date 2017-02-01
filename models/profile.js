@@ -21,6 +21,10 @@ module.exports = (function () {
         editedBy: {
             user: { type: ObjectId, ref: 'User', default: null },
             date: { type: Date }
+        },
+        removedBy:{
+            user: { type: ObjectId, ref: 'User', default: null },
+            date: { type: Date, default: Date.now }
         }
     }, {collection:'profiles'});
 

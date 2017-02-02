@@ -3,6 +3,7 @@ module.exports = (function () {
     var ObjectId = mongoose.Schema.Types.ObjectId;
 
     var subSchema = mongoose.Schema({
+        marks    : {type: ObjectId, ref:'mark'},
         title    : {type: String, required: true},
         teacher  : [{type: ObjectId, ref: 'teacher', default: null}],
         createdBy: {

@@ -86,6 +86,7 @@ var Module = function (models) {
             });
     };
 
+    ///by student
     this.createComment = function (req, res, next) {
         res.send({message: 'Comments not implemented'})
     };

@@ -48,35 +48,45 @@ var Module = function (models) {
     };
 
     this.updateStudent = function (req, res, next) {
-        try {
-            delete req.body._id;
-            StudentModel.update({_id: req.params._id}, req.body, function (err, result) {
-                if (err) {
-                    console.log(err);
 
-                    return next(err);
-                } else {
-                    res.status(200).send(result);
-                }
-            });
-        } catch (err) {
+        var id = req.params.id;
+        var body = req.body;
 
-        }
+        StudentModel.findOneAndUpdate({_id: id}, {$set : body}).exec(function (err, student) {
+            if (err) {
+                console.log(err);
+                return next(err);
+            }
+
+            res.status(200).send(student);
+
+        });
+
     };
+
+
+
+
 
     this.removeStudent = function (req, res, next) {
-        StudentModel.remove(req.params)
+        var id = req.params.id;
+        StudentModel.remove({_id: id})
             .exec(function (err, data) {
                 if (err) {
-                    res.status(500).send({error: 'error: ' + err});
-                }
-                else {
-                    console.log('data: ' + data);
+                    //res.status(500).send({error: 'error: ' + err});
                     return next(err);
                 }
+                console.log('data: ' + data);
+                res.status(200).send(data);
+
             });
     };
+    
+    this.createComment = function (req, res, next) {
+
+    }
 
 };
+
 
 module.exports = Module;

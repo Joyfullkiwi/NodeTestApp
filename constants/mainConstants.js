@@ -3,5 +3,11 @@
  */
 module.exports = {
     USER : 'user',
-    GROUP: 'group'
+    GROUP: 'group',
+    ROLES:{
+        ADMIN  :'admin',
+        STUDENT:'student',
+        TEACHER:'teacher'
+    }
+
 };

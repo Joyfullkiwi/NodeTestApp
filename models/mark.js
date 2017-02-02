@@ -14,7 +14,7 @@ module.exports = (function () {
             user: { type: ObjectId, ref: 'teacher', default: null },
             date: { type: Date }
         },
-        visits     : {type: Boolean}
+        visits     : {type: Number,default: null}
 
       //  posts    : [{type: Array}]
     }, {collection: 'marks'});

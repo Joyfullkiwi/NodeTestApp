@@ -118,7 +118,7 @@ var Module = function (models) {
             session.uId = user._id;
             session.uName = user.login;
             //admin
-            if (user.admin) {
+            if (user.isAdmin) {
                 req.session.isAdmin = true;
             }
 
@@ -206,7 +206,7 @@ var Module = function (models) {
 
             res.status(200).send(users);
 
-            mailer.sendEmail({});
+
         });
     };
 

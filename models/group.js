@@ -3,8 +3,9 @@ module.exports = (function () {
     var ObjectId = mongoose.Schema.Types.ObjectId;
 
     var groupSchema = mongoose.Schema({
-        title     : {type:String},
+        groupName : {type:String, default:'emptyGroup'},
         url       : {type: String, unique: true},
+        students  : [{type: ObjectId, ref: 'students', default: null}],
         createdBy: {
             user: { type: ObjectId, ref: 'User', default: null },
             date: { type: Date, default: Date.now }
@@ -13,13 +14,8 @@ module.exports = (function () {
             user: { type: ObjectId, ref: 'User', default: null },
             date: { type: Date }
         },
-        removedBy:{
-            user: { type: ObjectId, ref: 'User', default: null },
-            date: { type: Date, default: Date.now }
-        },
-        students  : [{type: ObjectId, ref: 'student', default: null}],
-        teachers  : [{type: ObjectId, ref: 'teacher', default: null}],
-        posts     : [{type: Array}]
+        teachers  : [{type: ObjectId, ref: 'teachers', default: null}],
+        posts     : [{type: ObjectId, ref: 'posts', default: null}]
     }, {collection: 'groups'});
 
     mongoose.model('group', groupSchema);
@@ -29,8 +25,6 @@ module.exports = (function () {
     }
 
     mongoose.Schemas.group = groupSchema;
-   // mongoose.Schemas.groups
-  //  mongoose.Schemas.group = studentSchema;
 
 })();
 

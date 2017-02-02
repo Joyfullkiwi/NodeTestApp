@@ -19,11 +19,11 @@ var Module = function (models) {
     };
 
     this.updateTeacher = function (req, res, next) {
-        delete req.body._id;
-        TeacherModel.update({_id: req.params._id}, req.body, function (err, result) {
+        var id = req.params.id;
+        var body = req.body;
+        TeacherModel.findOneAndUpdate({_id: id}, {$set: body},{new:true}).exec(function (err, result) {
             if (err) {
                 console.log(err);
-
                 return next(err);
             } else {
                 res.status(200).send(result);
@@ -31,19 +31,44 @@ var Module = function (models) {
         });
     };
 
+
     this.removeTeacher = function (req, res, next) {
-        TeacherModel.remove(req.params)
-            .exec(function (err, data) {
+        var id = req.params.id;
+        TeacherModel.remove({_id: id})
+            .exec(function (err, respons) {
                 if (err) {
                     res.status(500).send({error: 'error: ' + err});
-                }
-                else {
-                    console.log('data: ' + data);
                     return next(err);
                 }
+                console.log('data: ' + respons);
+                res.status(200).send(respons);
             });
     };
 
+    this.getTeachers = function (req, res, next) {
+        var query = req.query;
+
+        var criteria =  query.groups;
+
+        TeacherModel.find(criteria).populate('groups', 'firstName lastName').exec(function (err, users) {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).send(users);
+        });
+    };
+
+    this.getTeacherById = function (req, res, next) {
+        var id = req.params.id;
+
+        TeacherModel.findOne({_id: id}).exec(function (err, teacher) {
+            if (err) {
+                return next(err);
+            }
+
+            res.status(200).send(teacher);
+        })
+    };
 
 
 };

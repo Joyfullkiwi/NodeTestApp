@@ -26,6 +26,7 @@ module.exports = (function () {
             user: { type: ObjectId, ref: 'User', default: null },
             date: { type: Date, default: Date.now }
         }
+
     }, {collection: 'teachers'});
 
     mongoose.model('teacher', teacherSchema);

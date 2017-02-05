@@ -16,6 +16,8 @@ module.exports = (function () {
         login    : {type:String},
         pass     : {type:String},
         roles    : {type:String},
+        resKey   : {type:String},
+        regKey   : {type:String},
         photo    : {
             type   : String,
             default: "http://1plusx.com/app/mu-plugins/all-in-one-seo-pack-pro/images/default-user-image.png"

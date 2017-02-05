@@ -2,8 +2,8 @@ define([
     'jQuery',
     'Underscore',
     'Backbone',
-    'text!templates/register/registerTemplate.html',
-    'models/User/UserModel'
+    'text!templates/register/register.html',
+    '../models/User/UserModel'
 ], function ($, _, Backbone,RegisterTemplate, UserModel) {
     var RegisterView;
 
@@ -19,33 +19,52 @@ define([
         },
 
         events: {
-            "submit #regForm": "registration"
+            'click #registerBtn': 'register'
         },
 
-        registration: function(event){
+        register: function(event){
             event.preventDefault();
 
-            var self = this;
+
             var saveData = {};
             var $regform = this.$el.find('#regform');
 
             var userfname = $regform.find('#ufirstName').val();
+            var userlname = $regform.find('#ulastName').val();
+            var udataofbirth = $regform.find('#dateOfBirth').val();
             var useremail = $regform.find('#uemail').val();
             var userlogin = $regform.find('#ulogin').val();
             var userpass = $regform.find('#upass').val();
 
-            if (!userfname && !useremail && !userlogin && !userpass) {
-                return alert('This is required fields !!')
-            }
+            //if (!userfname && !useremail && !userlogin && !userpass && !udataofbirth) {
+              //  return alert('This is required fields !!')
+           // }
 
             saveData = {
                 firstName: userfname,
+                lastName: userlname,
+                birthDay: udataofbirth,
                 email:useremail,
                 login:userlogin,
                 pass:userpass
             };
 
-            $.ajax({
+            var user = new UserModel(saveData);
+            user.urlRoot = '/register';
+            user.save(null, {
+                success: function (response, xhr) {
+                    if (response.attributes.fail) {
+                        alert(response.attributes.fail);
+                        console.log(response.attributes.fail);
+                    } else {
+                        Backbone.history.navigate('/login', {trigger: true});
+                    }
+                },
+                error: function (err, xhr) {
+                    alert('Some error');
+                }
+            });
+            /*$.ajax({
                 url: "users/register",
                 type: "POST",
                 data: saveData,
@@ -55,7 +74,7 @@ define([
                 error: function () {
                     alert('error');
                 }
-            });
+            });*/
 
             //$.post('users/register', saveData, function () {});
            // var err = "";
@@ -85,9 +104,12 @@ define([
         render: function () {
             var modelData = this.model.toJSON();
 
-            this.$el.html(this.template({
+           /* this.$el.html(this.template({
                 item: modelData
-            }));
+            }));*/
+            var self = this;
+
+            this.$el.html(this.template());
 
             return this;
         }

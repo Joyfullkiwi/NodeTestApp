@@ -20,7 +20,7 @@ module.exports = (function () {
         }
     }, {collection: 'categories'});
 
-    mongoose.model('category', userSchema);
+    mongoose.model('category', categorySchema);
 
     if (!mongoose.Schemas) {
         mongoose.Schemas = {};

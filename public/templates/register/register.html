@@ -1,0 +1,44 @@
+
+<h2 class="page-header">Registration</h2>
+
+<form id ="regForm" class="form-horizontal" role="form" >
+    <div class="form-group required">
+        <label for="ufirstName"> First Name</label>
+        <input id="ufirstName" name="ufirstname" type="text" class="form-control" placeholder="Name" name="fname">
+    </div>
+
+    <div class="form-group required">
+        <label for="ulastName"> Last Name</label>
+        <input id="ulastName" name="ulastname" type="text" class="form-control" placeholder="Last Name" name="lname">
+    </div>
+
+    <div class="form-group required">
+        <label for="uemail">Email</label>
+        <input id="uemail" name="uemail" type="email" class="form-control" placeholder="Email">
+    </div>
+
+    <div class="form-group required">
+        <label for="dateOfBirth" class="col-sm-3 control-label">Date of birth</label>
+        <div class="col-sm-9">
+            <input type="date" class="form-control" id="dateOfBirth" required="required">
+        </div>
+    </div>
+
+    <div class="form-group required">
+        <label for = "ulogin">Login</label>
+        <input id="ulogin" name="ulogin" type="text" class="form-control" placeholder="Login" >
+    </div>
+    <div class="form-group required">
+        <label>Password</label>
+        <input id="upass" name="upass" type="password" class="form-control" placeholder="Password" >
+    </div>
+    <div class="form-group last">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button type="submit" class="btn btn-success btn-sm" id="registerBtn">Register</button>
+        </div>
+    </div>
+
+</form>
+<div>
+    <div class="panel-footer">You have already Registered? <a href="#/login" class="">Login here</a></div>
+</div>

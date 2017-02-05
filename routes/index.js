@@ -9,9 +9,7 @@ module.exports = function (app, db) {
     res.send("index.html");
   });
 
-  //app.get('/u/register',function (req, res, next) {
-   // res.render("registerTemplate.html");
-  //});
+
 
 
   app.use('/users', userRouter);

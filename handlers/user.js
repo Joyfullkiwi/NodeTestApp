@@ -34,7 +34,7 @@ var Module = function (models) {
 
     };
 
-    this.forgotPassword = function (req, res, next) {
+    /*this.forgotPassword = function (req, res, next) {
 
         var email = req.body.email;
         var to;
@@ -54,7 +54,7 @@ var Module = function (models) {
             html = '<b> hello! </b>';
             sendMail(to, subject, text, html);
         });
-    };
+    };*/
     this.createUser = function (req, res, next) {
         var body = req.body;
         var shaSum = crypto.createHash('sha256');
@@ -127,13 +127,176 @@ var Module = function (models) {
 
     };
 
+    this.register = function (req, res, next) {
 
+        var body = req.body;
+
+        if (body.email) {
+            UserModel.findOne({
+                'email': body.email
+            }, function (err, user) {
+                if (err) {
+                    next(err);
+                }
+                if (user) {
+                    return res.status(200).send({fail: 'Email Allready Registered'});
+                } else {
+                    var user = new UserModel(req.body);
+                    var shaSum = crypto.createHash('sha256');
+
+                    if (user.password) {
+                        shaSum.update(user.password);
+                        user.password = shaSum.digest('hex');
+                    }
+
+                    if(!body.friends) {
+                        var shaSum1 = crypto.createHash('sha256');
+
+                        shaSum1.update(String(Date.now()));
+                        user.registrationKey = shaSum1.digest('hex');
+
+                        var origin = req.headers.referer;
+                        var to = body.email;
+                        var subject = "Account registration confirmation";
+                        var text = user.registrationKey;
+                        var html = "<b>" + origin + "#myApp/activate/" + user.registrationKey + "</b>";
+
+                        sendMail(to, subject, text, html);
+                    }
+
+                    user.save(function (err, _user) {
+                        if (err) {
+                            return next(err);
+                        }
+
+                        if(_user.friends && _user.friends.length) {
+                            var friendId = _user.friends[0];
+                            var newfriend = {_id: _user._id};
+                            UserModel.findByIdAndUpdate(friendId, {$addToSet: {"friends": newfriend}}, {new: true}, function (err, response) {
+                                if (err) {
+                                    return next(err);
+                                }
+                            });
+                        }
+
+                        return res.status(200).send({success: true});
+                    });
+                }
+            });
+        } else {
+            return res.status(200).send({fail: 'Specify Email'});
+        }
+    };
+
+    this.activateRegistration = function (req, res, next) {
+
+        var regKey = req.params.regKey;
+
+        UserModel.findOne({
+            'regKey': regKey
+        }, function (err, user) {
+            if (err) {
+                next(err);
+            }
+            if (!user) {
+                return res.status(200).send({fail: "User allready activated or doesn't exist"});
+            } else {
+
+                user.regKey = undefined;
+
+                user.save(function (err, _user) {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.status(200).send({success: true});
+                });
+            }
+        });
+    };
+
+    this.resetPass = function (req, res, next) {
+
+        var email = req.body.email;
+        if (email) {
+            UserModel.findOne({
+                'email': email
+            }, function (err, user) {
+                if (err) {
+                    next(err);
+                }
+                if (!user) {
+                    return res.status(200).send({fail: 'Email Not Registered'});
+                } else {
+                    var shaSum = crypto.createHash('sha256');
+                    shaSum.update(String(Date.now()));
+                    user.reskey = shaSum.digest('hex');
+
+                    user.save(function (err, _user) {
+                        if (err) {
+                            return next(err);
+                        }
+
+                        var to = body.email;
+                        var subject = "Password recovery";
+                        var text =  user.reskey;
+                        var html = "<b>"  + "/#reset/" + text + "</b>";
+
+                        sendMail(to, subject, text, html);
+
+                        res.status(200).send({success: true});
+
+                    });
+                }
+            });
+        } else {
+            return res.status(200).send({fail: 'Enter Email'});
+        }
+    };
+
+    this.resetKeyword = function (req, res, next) {
+
+        var body = req.body;
+        var resKey = req.params.resKey;
+        var pass = req.body.pass;
+        var shaSum;
+
+        if (pass) {
+            UserModel.findOne({
+                'resKey': resKey
+            }, function (err, user) {
+                if (err) {
+                    next(err);
+                }
+                shaSum = crypto.createHash('sha256');
+                shaSum.update(pass);
+                pass = shaSum.digest('hex');
+
+                if (user) {
+                    user.pass = pass;
+                    user.reskey = undefined;
+                    user.save(function (err, _user) {
+                        if (err) {
+                            return next(err);
+                        }
+                        return res.status(200).send({success: true});
+                    });
+                } else {
+                    return res.status(200).send({fail: 'Reset key isnt valid'});
+                }
+            });
+
+        } else {
+            return res.status(200).send({fail: 'No password has entered'});
+        }
+
+    };
 
     this.logout = function (req, res, next) {
         if (req.session) {
-            req.session.destroy(function () { });
+            req.session.destroy();
         }
-        res.redirect('/#login');
+        res.status(200).send({success: true});
+       // res.redirect('/#login');
     };
 
 
@@ -254,6 +417,8 @@ var Module = function (models) {
     //     res.status(200).send({key: param});
     //
     // };
+
+
 };
 
 module.exports = Module;

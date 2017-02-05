@@ -7,6 +7,6 @@ module.exports = (function () {
     require('./group.js');
     require('./profile.js');
     require('./category.js');
-    require('./post');
+    //require('./post');
 
 })();

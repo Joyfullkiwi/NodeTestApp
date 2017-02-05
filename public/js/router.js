@@ -3,8 +3,8 @@ define([
     'Underscore',
     'jQuery',
     'views/mainView',
-    'views/login/loginView',
-    'views/register/registerView'
+    'views/loginView',
+    'views/registerView'
 ], function (Backbone, _, $, MainView, LoginView,RegisterView){
     'use strict';
 

@@ -2,8 +2,8 @@ define([
     'jQuery',
     'Underscore',
     'Backbone',
-    'text!templates/login/loginTemplate.html',
-    'models/User/UserModel'
+    'text!templates/login/login.html',
+    '../models/User/UserModel'
 ], function ($, _, Backbone,LoginTemplate, UserModel) {
     var LoginView;
 
@@ -19,12 +19,46 @@ define([
         },
 
         events: {
-            "submit #loginForm": "login"
+
+            'click #uLoginBtn': 'login'
         },
 
         login: function(event){
             event.preventDefault();
 
+            var userlogin = $loginform.find('#ulogin').val();
+            var userpass =  $loginform.find('#upass').val();
+
+            var data = {
+                login: userlogin,
+                pass: userpass
+            };
+
+            var user = new UserModel(data);
+            user.urlRoot = '/login';
+            user.save(null, {
+                success: function (response, xhr) {
+                    if (response.attributes.fail) {
+                        alert(response.attributes.fail);
+                        console.log(response.attributes.fail);
+                    } else {
+
+
+                        App.authorised = true;
+                        localStorage.setItem('loggedIn', 'true');
+
+                        App.myId = response.id;
+                        localStorage.setItem('myId', App.myId);
+
+                        App.me = response;
+
+                        Backbone.history.navigate('/main', {trigger: true});
+                    }
+                },
+                error  : function (err, xhr) {
+                    alert('Some error');
+                }
+            });
            // var self = this;
           /*  var saveData = {};
             var $loginform = this.$el.find('#loginform');
@@ -44,7 +78,7 @@ define([
 
             $.post('users/login', saveData, function () {
                 alert('Hello ' + login+ '!');
-            });*/
+            });
             var data = {
                 login: this.$("#ulogin").val(),
                 pass: this.$("#upass").val()
@@ -60,12 +94,14 @@ define([
                 $("#error").text('Unable to login.');
                // $("#error").slideDown();
                 return;
-            }
-            if(data.login == "")
-            {
-                $("#loginForm").addClass("notRegister");
-            }
-            $.ajax({
+            }*/
+           // if(data.login == "")
+           // {
+              //  $("#loginForm").addClass("notRegister");
+            //}
+
+
+           /* $.ajax({
                 url: "users/login",
                 type: "POST",
                 data: data,
@@ -75,19 +111,15 @@ define([
                 error: function () {
                     alert('error');
                 }
-            });
+            });*/
 
 
         },
 
         render: function () {
-            var modelData = this.model.toJSON();
 
-            this.$el.html(this.template({
-                item: modelData
-            }));
-
-
+            var self = this;
+            this.$el.html(this.template());
             return this;
         }
     });

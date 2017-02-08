@@ -15,6 +15,8 @@ define([
             'home'                                                     : 'any',
             'login'                                                    : 'login',
             'register'                                                 : 'register',
+            'reset'                                                    : 'reset',
+            'reset/:resKey'                                            : 'resetPass',
             'Users'                                                    : 'goToUsers',
             'People'                                                   : 'goToUsers',
             ':contentType(/p=:page)(/c=:countPerPage)(/filter=:filter)': 'goToContent',
@@ -190,14 +192,68 @@ define([
 
         login: function () {
             var self = this;
-            require(LoginView,function (View) {
-                self.wrapperView = new View();
-            });
-           // this.changeView(new LoginView());
+            App.authorised = localStorage.getItem('loggedIn');
+            var loginViewUrl = 'views/loginView';
+            if (App.authorised) {
+                Backbone.history.navigate('#main', {trigger: true});
+            } else {
+                require([loginViewUrl], function (LoginView) {
+                    if (self.view) {
+                        self.view.undelegateEvents();
+                    }
+                    self.view = new LoginView();
+                });
+            }
         },
 
+
         register: function () {
-            this.changeView(new RegisterView);
+            var self = this;
+            App.authorised = localStorage.getItem('loggedIn');
+            var registerViewUrl = 'views/registerView';
+            if (App.authorised) {
+                Backbone.history.navigate('#main', {trigger: true});
+            } else {
+                require([registerViewUrl], function (RegisterView) {
+                    if (self.view) {
+                        self.view.undelegateEvents();
+                    }
+                    self.view = new RegisterView();
+                });
+            }
+        },
+
+        reset: function () {
+            var self = this;
+            App.authorised = localStorage.getItem('loggedIn');
+            var resetViewUrl = 'views/reset';
+
+            if (App.authorised) {
+                Backbone.history.navigate('#main', {trigger: true});
+            } else {
+                require([resetViewUrl], function (ResetView) {
+                    if (self.view) {
+                        self.view.undelegateEvents();
+                    }
+                    self.view = new ResetView();
+                });
+            }
+        },
+
+        resetPass: function (resKey) {
+            var self = this;
+            App.authorised = localStorage.getItem('loggedIn');
+            var resetViewUrl = 'views/resetPassword';
+            if (App.authorised) {
+                Backbone.history.navigate('#main', {trigger: true});
+            } else {
+                require([resetViewUrl], function (ResetPassView) {
+                    if (self.view) {
+                        self.view.undelegateEvents();
+                    }
+                    self.view = new ResetPassView({recoveryKey: recoveryKey});
+                });
+            }
         }
 
 

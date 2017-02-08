@@ -35,6 +35,36 @@ var Module = function (models) {
         });*/
     };
 
+    //студент: переглядати оцінки по певному предмету;
+
+    this.getMarks = function (req, res, next) {
+        var query = req.query;
+        var subject = req.subject;
+        var criteria = query.subject ? {subject: subject} : {};
+
+        MarksModel.find(criteria).populate('friends', 'firstName lastName').exec(function (err, users) {
+            if (err) {
+                return next(err);
+            }
+
+            res.status(200).send(users);
+
+
+        });
+    };
+
+    //one mark
+    this.getMarkById = function (req, res, next) {
+        var id = req.params.id;
+        MarksModel.findOne({_id: id}).exec(function (err, user) {
+            if (err) {
+                return next(err);
+            }
+
+            res.status(200).send(user);
+        })
+    };
+
 
 };
 

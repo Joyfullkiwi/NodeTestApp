@@ -24,6 +24,33 @@ connection.once('connected', function () {
     //routes
     var userRouter = require('./routes/user');
 
+    function onlyAuth(req, res, next) {
+        if (req.session && req.session.loggedIn) {
+            return next();
+        }
+        res.status(401).send();
+    };
+
+    function onlyAdmin(req, res, next) {
+        if (req.session && req.session.isAdmin) {
+            return next();
+        }
+        res.status(401).send();
+    };
+
+    function onlyTeacher(req,res,next){
+        if(req.session && req.session.isTeacher){
+            return next();
+        }
+        res.status(401).send();
+    };
+
+    function onlyStudent(req, res, next) {
+        if(req.session && req.session.isStudent){
+            return next();
+        }
+        res.status(401).send();
+    };
 
 
 

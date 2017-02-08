@@ -11,25 +11,14 @@ var Module = function (models) {
 
         var body = req.body;
         var profile = new ProfileModel(body);
-
-        if (req.session.uId) {
-
-            profile.createdBy.user = req.session.uId;
-            profile.editedBy.user = req.session.uId;
-
-        }
-
-
         profile.save(function (err, profile) {
             if(err){
                 return next(err);
             }
             res.status(200).send({success:profile});
-
         });
-
-
     };
+
     this.getProfile = function (res, req, next) {
 
         var query = req.query;
@@ -42,8 +31,11 @@ var Module = function (models) {
 
         })
     };
+
     this.updateProfile = function (res, req, next) {
-        ProfileModel.update(req.params.id, req.body).exec(function (err, data) {
+        var id = req.params.id;
+        var body = req.body;
+        ProfileModel.update({_id: id}, {$set: body},{new:true}).exec(function (err, data) {
             if (err) {
                 throw err;
             }
@@ -51,7 +43,8 @@ var Module = function (models) {
         });
     };
     this.removeProfile = function (res, req, next) {
-        ProfileModel.remove(req.params).exec(function (err, data) {
+        var id = req.params.id;
+        ProfileModel.remove({_id: id}).exec(function (err, data) {
             if (err) {
                 throw err;
             }

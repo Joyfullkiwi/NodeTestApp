@@ -21,7 +21,9 @@ var Module = function (models) {
     };
     
     this.updateCategory = function (req, res, next) {
-        CategoryModel.update(req.params.id, req.body).exec(function (err, data){
+        var id = req.params.id;
+        var body = req.body;
+        CategoryModel.findOneAndUpdate({_id: id}, {$set: body},{new:true}).exec(function (err, data){
 
             if(err){
                 return next(err);
@@ -30,9 +32,13 @@ var Module = function (models) {
         });
     };
 
+
+
     this.removeCategory = function (req, res, next) {
-        Category.remove(req.params).exec(function (err, data) {
+        var id = req.params.id;
+        Category.remove({_id: id}).exec(function (err, data) {
             if (err) {
+                res.status(500).send({error: 'error: ' + err});
                 return next(err);
             }
             res.sendStatus(200).send(data);

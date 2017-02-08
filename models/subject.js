@@ -5,19 +5,7 @@ module.exports = (function () {
     var subSchema = mongoose.Schema({
         marks    : {type: ObjectId, ref:'mark'},
         title    : {type: String, required: true},
-        teacher  : [{type: ObjectId, ref: 'teacher', default: null}],
-        createdBy: {
-            user: { type: ObjectId, ref: 'User', default: null },
-            date: { type: Date, default: Date.now }
-        },
-        editedBy: {
-            user: { type: ObjectId, ref: 'User', default: null },
-            date: { type: Date }
-        },
-        removedBy:{
-            user: { type: ObjectId, ref: 'User', default: null },
-            date: { type: Date, default: Date.now }
-        },
+        teacher  : [{type: ObjectId, ref: 'teacher', default: null}]
     }, {collection: 'subjects'});
 
     mongoose.model('subject', subSchema);

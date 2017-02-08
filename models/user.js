@@ -15,7 +15,7 @@ module.exports = (function () {
         posts    : [{type: Array}],
         login    : {type:String},
         pass     : {type:String},
-        roles    : {type:String},
+        role    : {type:String},
         resKey   : {type:String},
         regKey   : {type:String},
         photo    : {

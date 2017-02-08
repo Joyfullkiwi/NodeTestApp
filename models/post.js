@@ -24,17 +24,12 @@ module.exports = (function () {
         ],
         tags: [{type: String, ref: 'Tag'}],
         published: Boolean,
-        createdBy: {
-            user: { type: ObjectId, ref: 'User', default: null },
+        created: {
             date: { type: Date, default: Date.now }
         },
-        editedBy: {
+        edited: {
             user: { type: ObjectId, ref: 'User', default: null },
             date: { type: Date }
-        },
-        removedBy:{
-            user: { type: ObjectId, ref: 'User', default: null },
-            date: { type: Date, default: Date.now }
         },
         author: {type: ObjectId, ref: 'User'}
 

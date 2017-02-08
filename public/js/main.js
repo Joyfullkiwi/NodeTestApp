@@ -12,6 +12,7 @@ require.config({
         jQuery    : './libs/jquery/dist/jquery',
         Underscore: './libs/underscore/underscore',
         Backbone  : './libs/backbone/backbone',
+        Bootstrap : './libs/bootstrap/dist/js/bootstrap.min',
         templates : '../templates',
         jqueryui  : './libs/jquery-ui.min',
         text      : './libs/text/text',
@@ -30,8 +31,8 @@ require.config({
         Backbone: ['Underscore', 'jQuery'],
 
         jqueryui: ['jQuery'],
-
-        app: ['Backbone'] //, //'jqueryui']
+////
+        app: ['Backbone','Bootstrap'] //, //'jqueryui']
     }
 });
 

@@ -31,10 +31,11 @@ var Module = function (models) {
             .populate( 'category', 'name')
             .exec(function (err, data) {
                 if (err) {
-                    return next(err);
-                   // res.status(500).send({error: "Can\'t find Post"});
+
+                    res.status(500).send({error: "Can\'t find Post"});
+                    //return next(err);
                 }
-                res.send(data);
+                res.status(200).send(data);
 
             });
     };
@@ -42,8 +43,8 @@ var Module = function (models) {
     this.getPostById = function (req, res, next) {
         PostModel.findOne({_id: req.params._id}, function (err, data) {
             if (err) {
-                return next(err);
-               // res.status(500).send({error: "Can\'t find Post"});
+                res.status(500).send({error: "Can\'t find Post"});
+                //return next(err);
             }
             PostModel.populate(data, {
                 path: 'author',
@@ -61,8 +62,8 @@ var Module = function (models) {
                 if (err) {
                     console.log(err);
 
-                   // res.status(500).send({message: {error: "Can\'t update Post"}});
-                    return next(err);
+                    res.status(500).send({message: {error: "Can\'t update Post"}});
+                    //return next(err);
                 } else {
                     res.status(200).send(result);
                 }

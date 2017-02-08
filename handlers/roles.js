@@ -3,7 +3,7 @@ var constants = require('../constants/mainConstants');
 
 function isAdmin(req, res, next) {
     var err;
-    if (req.roles.type == constants.ROLES.ADMIN) {
+    if (req.role.type == constants.ROLES.ADMIN) {
 
     } else {
         err = new Error('is not admin');
@@ -15,7 +15,7 @@ exports.isAdmin = isAdmin;
 
 function isStudent(req,res, next) {
     var err;
-    if (req.roles.type == constants.ROLES.STUDENT) {
+    if (req.role.type == constants.ROLES.STUDENT) {
 
     } else {
         err = new Error('is not student');
@@ -27,7 +27,7 @@ exports.isStudent = isStudent;
 
 function isTeacher(req,res, next) {
     var err;
-    if (req.roles.type == constants.ROLES.TEACHER) {
+    if (req.role.type == constants.ROLES.TEACHER) {
 
     } else {
         err = new Error('is not teacher');

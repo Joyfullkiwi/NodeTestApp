@@ -118,9 +118,9 @@ var Module = function (models) {
             session.uId = user._id;
             session.uName = user.login;
             //admin
-            if (user.isAdmin) {
+           /* if (user.isAdmin) {
                 req.session.isAdmin = true;
-            }
+            }*/
 
             res.status(200).send(user);
         })

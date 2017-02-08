@@ -23,8 +23,9 @@ module.exports = function (db) {
   app.use(bodyParser.json({strict: false, inflate: true, limit: 1024 * 1024 * 200}));
   app.use(bodyParser.urlencoded({extended: false, limit: 1024 * 1024 * 200})); // https://www.npmjs.com/package/body-parser
 //app.use(express.static(path.join(_dirname,'public))); statuchno
-  app.use(cookieParser('StudentKey'));
 
+
+  app.use(cookieParser('StudentKey'));
 
   app.use(session(sessionOptions));
 

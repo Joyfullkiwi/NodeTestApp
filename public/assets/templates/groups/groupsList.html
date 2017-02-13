@@ -1,0 +1,8 @@
+<% groups.forEach(function(group){%>
+<tr data-id="<%- group._id%>">
+    <td><%= group.title%></td>
+    <td><button class="groupOpenBtn">Open Group</button></td>
+    <td><button class="gEditBtn">Edit</button></td>
+    <td><button class="gDeleteBtn">Delete</button></td>
+</tr>
+<%})%>

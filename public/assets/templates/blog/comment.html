@@ -1,0 +1,12 @@
+<h3  class="commenttitle">Posts:</h3>
+
+<% comments.forEach(function(comment){%>
+<div class="comment">
+    <h4><b><%= comment.title || ''%></b></h4>
+    <p class="commentbody" ><%= comment.body %></p>
+    <p class="postAuthor">Author: <%= comment.author %> </p>
+    <p class="date">Date: <%= new Date(comment.date) %></p>
+    <br>
+    <button class="addComment">Add Comment</button>
+</div>
+<% } %>

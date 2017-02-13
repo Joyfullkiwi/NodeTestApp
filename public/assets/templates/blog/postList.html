@@ -1,0 +1,15 @@
+<h3  class="blocktitle">Posts:</h3>
+
+<% posts.forEach(function(post){%>
+<div class="post">
+<h4><b><%= post.title || ''%></b></h4>
+<textarea class="postbody" ><%= post.body %></textarea>
+<p><%= post.shotDescription || '' %></p>
+<p class="date">Date: <%= new Date(post.date) %></p>
+<p class="postAuthor">Author: <%= post.author %> </p>
+<p class="postCategory">Category: <%= post.category %> </p>
+   <br>
+    <button class="addComment">Add Comment</button>
+</div>
+<% } %>
+

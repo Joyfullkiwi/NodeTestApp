@@ -1,0 +1,11 @@
+<% users.forEach(function(user){%>
+<tr data-id="<%- user._id%>">
+    <td><%= user.firstName%></td>
+    <td><%= user.lastName%></td>
+    <td><&= user.birthDay</td>
+    <td><%= user.email%></td>
+    <td><%= user.phone%></td>
+    <td><button class="uEditBtn">Edit</button></td>
+    <td><button class="uDeleteBtn">Delete</button></td>
+</tr>
+<%})%>

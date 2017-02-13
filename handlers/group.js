@@ -7,7 +7,7 @@ var Module = function (models) {
     "use strict";
     var GroupModel = models.get('group', groupSchema);
 
-//by admin & teacher
+
     this.createGroup = function (req, res, next) {
         var body =req.body;
         var group = new GroupModel(body);
